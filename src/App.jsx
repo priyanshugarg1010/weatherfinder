@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { apiKey } from "../env";
+import { useState } from "react";
 
 const App = () => {
   const [city, setCity] = useState("");
@@ -13,7 +11,6 @@ const App = () => {
     let apiDateFormat = "";
     if (weatherLocation) {
       const localTime = weatherLocation.localtime;
-      console.log(weatherLocation.localtime);
       // const localTime = "2023-11-25 4:28";
 
       // Extract the date portion
@@ -43,7 +40,6 @@ const App = () => {
     // Remove commas from the formatted date
     const formattedDateWithoutCommas = formattedDate.replace(/,/g, "");
 
-    console.log(formattedDateWithoutCommas); // Output: Thursday May 10 2020
     setDate(formattedDateWithoutCommas);
   };
 
@@ -55,13 +51,14 @@ const App = () => {
     // Replace with your actual API key
 
     axios
-      .get(`http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`)
+      .get(
+        `http://api.weatherapi.com/v1/current.json?key=${
+          import.meta.env.VITE_APIKEY
+        }&q=${city}`
+      )
       .then((response) => {
-        console.log(response.data); // Log the data received from the API
         setWeatherCurrent(response.data.current);
         setWeatherLocation(response.data.location);
-        console.log(weatherCurrent); // Assuming you have a state variable named 'weather' to store the data
-        console.log(weatherLocation); // Assuming you have a state variable named 'weather' to store the data
       })
       .catch((error) => console.log(error.message));
   };
